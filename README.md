@@ -5,7 +5,7 @@ https://github.com/jangxx/node-magichome which was converted to Java 11 by G33RY
 
 
 Current functionality
-- Turn lights on and off
+- Turn lights on and off from trayicon
 -
 -
 -
