@@ -5,6 +5,7 @@ https://github.com/G33RY/magic-home-java
 
 
 Current functionality
+- Discover lights on the network
 - Turn lights on and off from trayicon
 -
 -
