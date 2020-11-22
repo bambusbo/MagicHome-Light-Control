@@ -50,18 +50,20 @@ public class Application {
     private static void readPropertiesFile() throws IOException {
         //Initialize properties
         properties = new Properties();
-        propertiesOut = new FileOutputStream("config.properties");
         propertiesStream = new FileInputStream("config.properties");
-
         properties.load(propertiesStream);
 
         //Assign config properties to variables
         turnOnAtStartup = Boolean.parseBoolean(properties.getProperty("turnOnAtStartup"));
         startAppWithComputer = Boolean.parseBoolean(properties.getProperty("startAppWithComputer"));
+        propertiesStream.close();
+
+        propertiesOut = new FileOutputStream("config.properties");
 
         //Set checkboxes to property values
         turnOnAtStartupCB.setState(turnOnAtStartup);
         startAppWithComputerCB.setState(startAppWithComputer);
+        propertiesOut.close();
 
         }
 
@@ -83,7 +85,9 @@ public class Application {
             turnOnAtStartup = turnOnAtStartupCB.getState();
             properties.setProperty("turnOnAtStartup", "" + turnOnAtStartup);
             try {
+                propertiesOut = new FileOutputStream("config.properties");
                 properties.store(propertiesOut, "Generated properties file");
+                propertiesOut.close();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -93,7 +97,9 @@ public class Application {
             startAppWithComputer = startAppWithComputerCB.getState();
             properties.setProperty("startAppWithComputer", ""+startAppWithComputer);
             try {
+                propertiesOut = new FileOutputStream("config.properties");
                 properties.store(propertiesOut, "Generated properties file");
+                propertiesOut.close();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
