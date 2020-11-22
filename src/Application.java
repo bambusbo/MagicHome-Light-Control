@@ -9,6 +9,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class Application {
@@ -71,13 +72,7 @@ public class Application {
         // Create a action listener to listen for default action executed on the tray icon
 
 
-
-
         //Listeners
-        ActionListener listener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        };
 
             ActionListener lightsOnListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -122,6 +117,9 @@ public class Application {
         // Create a popup menu
         PopupMenu popup = new PopupMenu();
 
+        // Create a submenu containing known devices
+        Menu subMenuDevices = new Menu("Devices");
+
         // Create menu items
         MenuItem exit = new MenuItem("Exit");
         MenuItem lightsOn = new MenuItem("Lights On");
@@ -129,7 +127,15 @@ public class Application {
         turnOnAtStartupCB = new CheckboxMenuItem("Turn on lights on app start");
         startAppWithComputerCB = new CheckboxMenuItem("Start app with windows");
 
-        //Add listeners for the buttons / checkboxes
+        // Create a menuitem array of all found devices on the network
+        ArrayList<MenuItem> devices = new ArrayList<>();
+        // Add all known devices to the menuitem array
+        for (Controller controller : controllers){
+            devices.add(new MenuItem(controller.getIP() + " ->> " + controller.getNAME()));
+
+        }
+
+        // Add listeners for the buttons / checkboxes
         lightsOn.addActionListener(lightsOnListener);
         lightsOff.addActionListener(lightsOffListener);
         exit.addActionListener(exitListener);
@@ -137,18 +143,24 @@ public class Application {
         startAppWithComputerCB.addItemListener(startAppWithComputerCBListener);
 
 
-        // Add popups for menu items
-
-
+        // Add the tray icon items to the popupmenu
+        popup.add(subMenuDevices);
         popup.add(lightsOn);
         popup.add(lightsOff);
         popup.add(startAppWithComputerCB);
         popup.add(turnOnAtStartupCB);
         popup.add(exit);
 
+        // Add devices to submenu
+        for (MenuItem temp: devices) {
+            subMenuDevices.add(temp);
+        }
+
+
+
+
+        //Set the tray icon image
         trayIcon = new TrayIcon(image, "MagicHome Light Control", popup);
-        // set the TrayIcon properties
-        trayIcon.addActionListener(listener);
 
         // Add the tray image
         try {
@@ -156,7 +168,6 @@ public class Application {
         } catch (AWTException e) {
             System.err.println(e);
         }
-
     }
 
     private static void exitProgram() {
