@@ -58,12 +58,11 @@ public class Application {
         startAppWithComputer = Boolean.parseBoolean(properties.getProperty("startAppWithComputer"));
         propertiesStream.close();
 
-        propertiesOut = new FileOutputStream("config.properties");
+
 
         //Set checkboxes to property values
         turnOnAtStartupCB.setState(turnOnAtStartup);
         startAppWithComputerCB.setState(startAppWithComputer);
-        propertiesOut.close();
 
         }
 
